@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/NavaRose/gogogo/users/models"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"gorm.io/gorm"
@@ -9,7 +10,7 @@ import (
 
 func List(ctx *gin.Context) {
 	db := ctx.MustGet("db").(*gorm.DB)
-	var users []model.User
+	var users []models.User
 	result := db.Find(&users)
 	message := "Oke, this is user list"
 	if result.RowsAffected == 0 {
@@ -24,7 +25,7 @@ func List(ctx *gin.Context) {
 
 func Detail(ctx *gin.Context) {
 	db := ctx.MustGet("db").(*gorm.DB)
-	var user model.User
+	var user models.User
 	result := db.First(&user, ctx.Param("id"))
 
 	if result.RowsAffected == 0 {
@@ -42,7 +43,7 @@ func Detail(ctx *gin.Context) {
 
 func Create(ctx *gin.Context) {
 	db := ctx.MustGet("db").(*gorm.DB)
-	newUser := model.User{}
+	newUser := models.User{}
 	err := ctx.ShouldBindWith(&newUser, binding.JSON)
 	if err != nil {
 		ctx.JSON(http.StatusUnprocessableEntity, gin.H{

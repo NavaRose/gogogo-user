@@ -1,12 +1,13 @@
 package main
 
 import (
+	"github.com/NavaRose/gogogo-core/core"
+	"github.com/NavaRose/gogogo/users/models"
 	"github.com/gin-gonic/gin"
 	"github.com/graphql-go/graphql"
 	"log"
 	"net/http"
 	"os"
-	//model "users/Models"
 )
 
 func RouteCreator() func(*gin.Engine) {
@@ -26,7 +27,7 @@ func applyRoutes(engine *gin.Engine) {
 
 func applyGraphQL(engine *gin.Engine) {
 	engine.POST("/", func(ctx *gin.Context) {
-		userType := model.GetUserSchema()
+		userType := models.GetUserSchema()
 
 		queryType := graphql.NewObject(graphql.ObjectConfig{
 			Name: "Query",
@@ -36,7 +37,7 @@ func applyGraphQL(engine *gin.Engine) {
 					Description: "Get user list",
 					Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 						db := core.InitDatabaseWithoutEngine()
-						var users []model.User
+						var users []models.User
 						result := db.Find(&users)
 						if result.RowsAffected > 0 {
 							return users, nil
@@ -56,7 +57,7 @@ func applyGraphQL(engine *gin.Engine) {
 						id, ok := p.Args["id"].(int)
 						if ok {
 							db := core.InitDatabaseWithoutEngine()
-							var user model.User
+							var user models.User
 							result := db.First(&user, id)
 							if result.RowsAffected > 0 {
 								return user, nil
