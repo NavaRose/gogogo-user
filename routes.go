@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/NavaRose/gogogo/core"
 	"github.com/gin-gonic/gin"
 	"github.com/graphql-go/graphql"
 	"log"

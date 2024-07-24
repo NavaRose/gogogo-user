@@ -1,7 +1,7 @@
 package main
 
 func main() {
-	engine := core.InitEngine(RouteCreator)
+	engine := InitEngine(RouteCreator)
 
 	err := engine.Run(":80")
 	if err != nil {
